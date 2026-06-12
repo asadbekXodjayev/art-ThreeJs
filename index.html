@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CODEX LUMINARA — A PORTAL TO THE RENAISSANCE</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='21' fill='none' stroke='%23D4AF77' stroke-width='2.5'/%3E%3Ccircle cx='24' cy='24' r='15' fill='none' stroke='%23D4AF77' stroke-width='1'/%3E%3Ccircle cx='24' cy='24' r='4' fill='%23D4AF77'/%3E%3C/svg%3E"
+    />
+    <meta name="description" content="Codex Luminara — masterworks of the Renaissance, hung inside a sphere. Drag to wander, tap to step closer." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-route="home">
+    <div id="app"></div>
+
+    <!-- ===================== HUD ===================== -->
+    <header class="hud hud-top">
+      <a class="logo" href="/" data-route-link aria-label="Codex Luminara — gallery">
+        <svg viewBox="0 0 48 48" width="46" height="46" aria-hidden="true">
+          <circle cx="24" cy="24" r="21" fill="none" stroke="#D4AF77" stroke-width="2" />
+          <circle cx="24" cy="24" r="15" fill="none" stroke="#D4AF77" stroke-width="0.75" opacity="0.5" />
+          <circle cx="24" cy="24" r="3.5" fill="#D4AF77" />
+          <line x1="24" y1="3" x2="24" y2="11" stroke="#D4AF77" stroke-width="1" opacity="0.6" />
+          <line x1="24" y1="37" x2="24" y2="45" stroke="#D4AF77" stroke-width="1" opacity="0.6" />
+          <line x1="3" y1="24" x2="11" y2="24" stroke="#D4AF77" stroke-width="1" opacity="0.6" />
+          <line x1="37" y1="24" x2="45" y2="24" stroke="#D4AF77" stroke-width="1" opacity="0.6" />
+        </svg>
+      </a>
+
+      <div class="hud-title">
+        <p class="hud-title-main">CODEX&nbsp;LUMINARA</p>
+        <p class="hud-title-sub">A&nbsp;PORTAL&nbsp;TO&nbsp;THE&nbsp;RENAISSANCE</p>
+      </div>
+
+      <p class="hud-anno">ANNO&nbsp;MMXXVI</p>
+    </header>
+
+    <footer class="hud hud-bottom">
+      <div class="view-toggle" role="group" aria-label="View mode">
+        <button class="vt-btn is-active" id="vt-grid" type="button" aria-label="Sphere view">
+          <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
+            <rect x="1" y="1" width="6" height="6" fill="currentColor" />
+            <rect x="9" y="1" width="6" height="6" fill="currentColor" />
+            <rect x="1" y="9" width="6" height="6" fill="currentColor" />
+            <rect x="9" y="9" width="6" height="6" fill="currentColor" />
+          </svg>
+        </button>
+        <button class="vt-btn" id="vt-list" type="button" aria-label="List view">
+          <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
+            <rect x="1" y="2" width="14" height="2" fill="currentColor" />
+            <rect x="1" y="7" width="14" height="2" fill="currentColor" />
+            <rect x="1" y="12" width="14" height="2" fill="currentColor" />
+          </svg>
+        </button>
+      </div>
+
+      <nav class="nav-pill" aria-label="Primary">
+        <a class="nav-item is-active" id="nav-work" href="/" data-route-link>Gallery</a>
+        <a class="nav-item" id="nav-about" href="/about" data-route-link>About</a>
+      </nav>
+
+      <div class="filter-wrap">
+        <div class="filter-panel" id="filter-panel" aria-hidden="true"></div>
+        <button class="filter-btn" id="filter-btn" type="button" aria-expanded="false">Era</button>
+      </div>
+    </footer>
+
+    <!-- ===================== LIST VIEW ===================== -->
+    <section id="list" class="page" aria-hidden="true">
+      <div class="page-inner list-inner">
+        <header class="list-head reveal">
+          <span>FOLIO</span>
+          <span>INDEX&nbsp;OPERUM&nbsp;(<span id="list-count">0</span>)</span>
+          <span>ANNO</span>
+        </header>
+        <ol class="list-rows" id="list-rows"></ol>
+      </div>
+      <img class="list-thumb" id="list-thumb" alt="" aria-hidden="true" />
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section id="about" class="page" aria-hidden="true">
+      <div class="page-inner">
+        <p class="page-label reveal">DE&nbsp;CODICE</p>
+        <h1 class="page-title reveal">A&nbsp;SPHERE HUNG&nbsp;WITH MASTERWORKS.</h1>
+        <div class="about-grid reveal">
+          <div class="page-copy">
+            <p class="has-dropcap">
+              Codex Luminara is a small digital gallery built as an old portal: you stand at the
+              centre of a sphere whose inner walls are hung with paintings, the way a collector's
+              cabinet once wrapped its owner in pictures. Drag to wander the walls. Step closer to
+              any work and its folio opens.
+            </p>
+            <p>
+              The collection follows the long arc of European painting — from the illuminated
+              vellum of the medieval scriptorium, through the oil revolution of the North and the
+              High Renaissance of Florence, Rome and Venice, to the candlelit climax of the Dutch
+              Baroque.
+            </p>
+          </div>
+          <ul class="about-facts">
+            <li><strong>XIII</strong><span>MASTERWORKS</span></li>
+            <li><strong>IV</strong><span>ERAS&nbsp;—&nbsp;DCCC&nbsp;TO&nbsp;MDCLXX</span></li>
+            <li><strong>VII</strong><span>MASTERS&nbsp;OF&nbsp;THE&nbsp;CRAFT</span></li>
+          </ul>
+        </div>
+        <div class="caps reveal">
+          <div class="cap-col">
+            <h2>THE&nbsp;NORTH</h2>
+            <ul>
+              <li>JAN&nbsp;VAN&nbsp;EYCK</li>
+              <li>ALBRECHT&nbsp;DÜRER</li>
+            </ul>
+          </div>
+          <div class="cap-col">
+            <h2>THE&nbsp;HIGH&nbsp;RENAISSANCE</h2>
+            <ul>
+              <li>LEONARDO&nbsp;DA&nbsp;VINCI</li>
+              <li>RAPHAEL</li>
+              <li>PAOLO&nbsp;VERONESE</li>
+            </ul>
+          </div>
+          <div class="cap-col">
+            <h2>THE&nbsp;BAROQUE</h2>
+            <ul>
+              <li>REMBRANDT&nbsp;VAN&nbsp;RIJN</li>
+              <li>JOHANNES&nbsp;VERMEER</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ARTWORK DETAIL ===================== -->
+    <section id="detail" aria-hidden="true">
+      <div class="detail-inner">
+        <header class="detail-top">
+          <span class="d-client" id="d-client"></span>
+          <button class="d-close" id="d-close" type="button">[&nbsp;CLOSE&nbsp;]</button>
+        </header>
+        <h1 class="d-title" id="d-title"></h1>
+        <div class="d-ornament" aria-hidden="true">
+          <svg width="180" height="20" viewBox="0 0 180 20">
+            <line x1="0" y1="10" x2="180" y2="10" stroke="#D4AF77" stroke-width="0.75" opacity="0.55" />
+            <circle cx="90" cy="10" r="3.5" fill="#D4AF77" opacity="0.9" />
+            <circle cx="68" cy="10" r="1.5" fill="#D4AF77" opacity="0.5" />
+            <circle cx="112" cy="10" r="1.5" fill="#D4AF77" opacity="0.5" />
+            <line x1="48" y1="10" x2="64" y2="10" stroke="#D4AF77" stroke-width="1" opacity="0.35" />
+            <line x1="116" y1="10" x2="132" y2="10" stroke="#D4AF77" stroke-width="1" opacity="0.35" />
+          </svg>
+        </div>
+        <div class="d-meta">
+          <span class="d-year" id="d-year"></span>
+          <div class="d-tags" id="d-tags"></div>
+          <span class="d-cat" id="d-cat"></span>
+        </div>
+        <figure class="d-figure codex-frame">
+          <img class="d-img" id="d-img" alt="" />
+        </figure>
+        <div class="d-body">
+          <p class="d-desc" id="d-desc"></p>
+          <dl class="d-prov">
+            <dt>MEDIUM</dt>
+            <dd id="d-medium"></dd>
+            <dt>HOUSED&nbsp;AT</dt>
+            <dd id="d-location"></dd>
+          </dl>
+        </div>
+        <button class="d-next" id="d-next" type="button">
+          <span class="d-next-label">OPUS&nbsp;SEQUENS</span>
+          <span class="d-next-title" id="d-next-title"></span>
+          <span class="d-next-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================== LOADER ===================== -->
+    <div id="loader" aria-hidden="true">
+      <div class="loader-mark">
+        <svg viewBox="0 0 48 48" width="60" height="60" aria-hidden="true">
+          <circle cx="24" cy="24" r="21" fill="none" stroke="#D4AF77" stroke-width="2" />
+          <circle cx="24" cy="24" r="15" fill="none" stroke="#D4AF77" stroke-width="0.75" opacity="0.5" />
+          <circle cx="24" cy="24" r="3.5" fill="#D4AF77" />
+        </svg>
+      </div>
+      <p class="loader-line">CODEX&nbsp;LUMINARA</p>
+      <p class="loader-pct"><span id="loader-num">0</span>%</p>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
