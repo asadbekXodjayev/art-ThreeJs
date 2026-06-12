@@ -17,6 +17,7 @@ interface TileAssets {
 
 const assetCache = new Map<string, TileAssets>();
 const imageCache = new Map<string, HTMLImageElement>();
+const imagePromiseCache = new Map<string, Promise<HTMLImageElement | null>>();
 
 /* ------------------------------------------------------------------ */
 /*  Card texture drawing (2D canvas → CanvasTexture)                   */
@@ -225,10 +226,12 @@ function buildAssets(artwork: Artwork, renderer: THREE.WebGLRenderer): TileAsset
 }
 
 function loadImage(artwork: Artwork): Promise<HTMLImageElement | null> {
-  const hit = imageCache.get(artwork.id);
-  if (hit) return Promise.resolve(hit);
-  return new Promise((resolve) => {
+  // promise-level cache: concurrent callers share one fetch + one decode
+  const pending = imagePromiseCache.get(artwork.id);
+  if (pending) return pending;
+  const promise = new Promise<HTMLImageElement | null>((resolve) => {
     const img = new Image();
+    img.decoding = 'async';
     img.onload = () => {
       imageCache.set(artwork.id, img);
       resolve(img);
@@ -236,6 +239,8 @@ function loadImage(artwork: Artwork): Promise<HTMLImageElement | null> {
     img.onerror = () => resolve(null);
     img.src = artwork.img;
   });
+  imagePromiseCache.set(artwork.id, promise);
+  return promise;
 }
 
 /** Preload every preview, reporting progress 0..1. */

@@ -26,7 +26,7 @@ export class DetailPage {
 
   private get children(): NodeListOf<HTMLElement> {
     return this.root.querySelectorAll<HTMLElement>(
-      '.detail-top, .d-title, .d-ornament, .d-meta, .d-figure, .d-body, .d-next'
+      '.detail-top, .d-title, .d-ornament, .d-meta, .d-figure, .d-body, .d-catalogue, .d-section, .d-facts-block, .d-palette-block, .d-next'
     );
   }
 
@@ -114,8 +114,73 @@ export class DetailPage {
       tags.appendChild(span);
     }
 
-    el<HTMLSpanElement>('d-medium').textContent = artwork.medium;
-    el<HTMLSpanElement>('d-location').textContent = artwork.location;
+    // catalogue entry
+    const catalogue = el<HTMLDListElement>('d-cat-grid');
+    catalogue.innerHTML = '';
+    const rows: Array<[string, string | undefined]> = [
+      ['MEDIUM', artwork.medium],
+      ['DIMENSIONS', artwork.dimensions],
+      ['HOUSED AT', artwork.location],
+      ['MOVEMENT', artwork.movement],
+      ['GENRE', artwork.genre],
+      ['COMMISSIONED BY', artwork.commissionedBy],
+    ];
+    for (const [label, value] of rows) {
+      if (!value) continue;
+      const dt = document.createElement('dt');
+      dt.textContent = label;
+      const dd = document.createElement('dd');
+      dd.textContent = value;
+      catalogue.append(dt, dd);
+    }
+
+    // long-form sections
+    const sections = el<HTMLDivElement>('d-sections');
+    sections.innerHTML = '';
+    const parts: Array<[string, string]> = [
+      ['OVERVIEW', artwork.overview],
+      ['COMPOSITION', artwork.composition],
+      ['TECHNIQUE', artwork.technique],
+      ['SYMBOLISM', artwork.symbolism],
+      ['LEGACY', artwork.legacy],
+    ];
+    for (const [heading, body] of parts) {
+      const section = document.createElement('section');
+      section.className = 'd-section';
+      const h2 = document.createElement('h2');
+      h2.className = 'd-sec-label';
+      h2.textContent = heading;
+      section.appendChild(h2);
+      for (const paragraph of body.split('\n\n')) {
+        const p = document.createElement('p');
+        p.textContent = paragraph;
+        section.appendChild(p);
+      }
+      sections.appendChild(section);
+    }
+
+    // facts
+    const facts = el<HTMLUListElement>('d-facts');
+    facts.innerHTML = '';
+    for (const fact of artwork.facts) {
+      const li = document.createElement('li');
+      li.textContent = fact;
+      facts.appendChild(li);
+    }
+
+    // palette
+    const palette = el<HTMLDivElement>('d-palette');
+    palette.innerHTML = '';
+    for (const color of artwork.palette) {
+      const cell = document.createElement('div');
+      cell.className = 'd-swatch';
+      cell.innerHTML = `
+        <span class="d-swatch-color" style="background:${color.hex}"></span>
+        <span class="d-swatch-hex">${color.hex.toUpperCase()}</span>
+        <span class="d-swatch-name">${color.name}</span>
+      `;
+      palette.appendChild(cell);
+    }
 
     this.next = nextArtwork(artwork);
     el<HTMLSpanElement>('d-next-title').textContent = this.next.title;

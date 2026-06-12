@@ -121,6 +121,38 @@ body[data-route='work'] .view-toggle {
   transform: rotate(-12deg) scale(1.06);
 }
 
+/* --- sound toggle --- */
+.sound {
+  margin-left: clamp(28px, 5vw, 80px);
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 0;
+  color: var(--gold);
+  font: 600 10.5px/1 var(--heading);
+  letter-spacing: 0.22em;
+  cursor: pointer;
+}
+
+.sound-dots {
+  display: grid;
+  grid-template-columns: repeat(6, 3px);
+  gap: 2px;
+}
+
+.sound-dots i {
+  width: 3px;
+  height: 3px;
+  background: rgba(212, 175, 119, 0.35);
+  transition: background 0.3s;
+}
+
+.sound[aria-pressed='true'] .sound-dots i {
+  background: var(--glow);
+}
+
 /* --- centered codex title --- */
 .hud-title {
   position: absolute;
@@ -688,29 +720,164 @@ body[data-route='work'] .view-toggle {
   color: rgba(245, 232, 199, 0.86);
 }
 
-.d-prov {
-  justify-self: end;
-  min-width: 240px;
-  border-left: 1px solid rgba(212, 175, 119, 0.35);
-  padding-left: 26px;
+/* --- folio: shared section label --- */
+.d-sec-label {
+  font: 600 11px/1 var(--heading);
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  margin-bottom: 18px;
 }
 
-.d-prov dt {
+/* --- catalogue entry frame --- */
+.d-catalogue {
+  margin: 64px 0;
+  padding: 36px clamp(24px, 4vw, 44px);
+}
+
+.d-cat-divider {
+  display: block;
+  margin: -6px 0 22px;
+}
+
+.d-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 48px;
+}
+
+.d-cat-grid dt {
   font: 600 10px/1 var(--heading);
   letter-spacing: 0.26em;
-  color: var(--gold);
-  margin-bottom: 8px;
+  color: rgba(212, 175, 119, 0.8);
+  margin-bottom: 7px;
 }
 
-.d-prov dd {
+.d-cat-grid dd {
   font: 500 15px/1.5 var(--body);
   font-style: italic;
-  color: rgba(245, 232, 199, 0.88);
-  margin: 0 0 22px;
+  color: rgba(245, 232, 199, 0.9);
+  margin: 0;
 }
 
-.d-prov dd:last-child {
-  margin-bottom: 0;
+.d-cat-grid div,
+.d-cat-grid dt {
+  break-inside: avoid;
+}
+
+/* dt+dd pairs flow as units in the grid */
+.d-cat-grid {
+  grid-auto-flow: row;
+}
+
+.d-cat-grid dt {
+  grid-column: auto;
+}
+
+/* --- long-form sections --- */
+.d-sections {
+  max-width: 680px;
+}
+
+.d-section {
+  margin-bottom: 44px;
+}
+
+.d-section p {
+  font: 500 16.5px/1.8 var(--body);
+  color: rgba(245, 232, 199, 0.88);
+}
+
+.d-section p + p {
+  margin-top: 14px;
+}
+
+.d-section:first-child p::first-letter {
+  float: left;
+  font-family: var(--heading);
+  font-weight: 700;
+  font-size: 54px;
+  line-height: 0.8;
+  margin: 5px 10px 0 0;
+  color: var(--gold);
+  text-shadow: 0 0 14px rgba(232, 199, 127, 0.5);
+}
+
+.d-section:first-child p + p::first-letter {
+  float: none;
+  font: inherit;
+  margin: 0;
+  color: inherit;
+  text-shadow: none;
+}
+
+/* --- facts --- */
+.d-facts-block {
+  margin: 60px 0;
+  border-top: 1px solid rgba(212, 175, 119, 0.3);
+  padding-top: 34px;
+}
+
+.d-facts {
+  list-style: none;
+  max-width: 680px;
+}
+
+.d-facts li {
+  font: 500 15.5px/1.65 var(--body);
+  color: rgba(245, 232, 199, 0.85);
+  padding: 10px 0 10px 30px;
+  position: relative;
+}
+
+.d-facts li::before {
+  content: '◆';
+  position: absolute;
+  left: 2px;
+  top: 12px;
+  font-size: 10px;
+  color: var(--gold);
+}
+
+.d-facts li + li {
+  border-top: 1px solid rgba(212, 175, 119, 0.12);
+}
+
+/* --- palette --- */
+.d-palette-block {
+  margin-bottom: 20px;
+  border-top: 1px solid rgba(212, 175, 119, 0.3);
+  padding-top: 34px;
+}
+
+.d-palette {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  max-width: 680px;
+}
+
+.d-swatch {
+  display: flex;
+  flex-direction: column;
+}
+
+.d-swatch-color {
+  height: 64px;
+  border: 1px solid rgba(212, 175, 119, 0.35);
+  margin-bottom: 12px;
+}
+
+.d-swatch-hex {
+  font: 600 10px/1 var(--heading);
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+
+.d-swatch-name {
+  font: 500 13px/1.4 var(--body);
+  font-style: italic;
+  color: var(--ink-dim);
 }
 
 .d-next {
@@ -856,12 +1023,12 @@ body[data-route='work'] .view-toggle {
     grid-template-columns: 1fr;
   }
 
-  .d-prov {
-    justify-self: start;
-    border-left: 0;
-    padding-left: 0;
-    border-top: 1px solid rgba(212, 175, 119, 0.35);
-    padding-top: 22px;
+  .d-cat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .d-palette {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

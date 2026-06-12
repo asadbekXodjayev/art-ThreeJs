@@ -12,6 +12,7 @@ import { SphereControls } from './controls';
 import { LensShader } from './lens';
 import { DetailPage } from './detail';
 import { PageOverlay, ListPage } from './pages';
+import { GalleryAudio } from './audio';
 import { buildFilter, updateLoader, hideLoader } from './ui';
 
 const BASE_FOV = 72;
@@ -64,6 +65,18 @@ function routeTitle(route: Route): string {
 async function boot(): Promise<void> {
   const app = document.getElementById('app');
   if (!app) throw new Error('Missing #app');
+
+  // kick off image fetches immediately — don't wait for fonts/GL setup.
+  // The loader clears at ~45%; remaining paintings stream onto their
+  // tiles as they decode (textures redraw on arrival).
+  let markFirstWave: () => void = () => undefined;
+  const firstWave = new Promise<void>((resolve) => {
+    markFirstWave = resolve;
+  });
+  void preloadImages(ARTWORKS, (ratio) => {
+    updateLoader(ratio);
+    if (ratio >= 0.45) markFirstWave();
+  }).then(() => markFirstWave());
 
   /* ------------------------- renderer / scene ------------------------- */
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
@@ -241,8 +254,17 @@ async function boot(): Promise<void> {
     );
   });
 
+  const audio = new GalleryAudio();
+  const soundBtn = document.getElementById('sound-toggle');
+  const soundState = document.getElementById('sound-state');
+  soundBtn?.addEventListener('click', () => {
+    const on = audio.toggle();
+    soundBtn.setAttribute('aria-pressed', String(on));
+    if (soundState) soundState.textContent = on ? '[ON]' : '[OFF]';
+  });
+
   /* ------------------------------ loading ----------------------------- */
-  await preloadImages(ARTWORKS, updateLoader);
+  await firstWave;
   void hideLoader();
 
   // intro: swing in from the side while the lens "focuses"

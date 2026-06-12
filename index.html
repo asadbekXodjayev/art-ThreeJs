@@ -33,6 +33,13 @@
         </svg>
       </a>
 
+      <button class="sound" id="sound-toggle" type="button" aria-pressed="false">
+        <span class="sound-dots" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </span>
+        SOUND&nbsp;<span id="sound-state">[OFF]</span>
+      </button>
+
       <div class="hud-title">
         <p class="hud-title-main">CODEX&nbsp;LUMINARA</p>
         <p class="hud-title-sub">A&nbsp;PORTAL&nbsp;TO&nbsp;THE&nbsp;RENAISSANCE</p>
@@ -165,13 +172,29 @@
         </figure>
         <div class="d-body">
           <p class="d-desc" id="d-desc"></p>
-          <dl class="d-prov">
-            <dt>MEDIUM</dt>
-            <dd id="d-medium"></dd>
-            <dt>HOUSED&nbsp;AT</dt>
-            <dd id="d-location"></dd>
-          </dl>
         </div>
+
+        <aside class="d-catalogue codex-frame">
+          <p class="d-sec-label">CATALOGUE&nbsp;ENTRY</p>
+          <svg class="d-cat-divider" width="120" height="14" viewBox="0 0 120 14" aria-hidden="true">
+            <line x1="0" y1="7" x2="120" y2="7" stroke="#D4AF77" stroke-width="0.75" opacity="0.55" />
+            <circle cx="60" cy="7" r="2.5" fill="#D4AF77" opacity="0.9" />
+          </svg>
+          <dl class="d-cat-grid" id="d-cat-grid"></dl>
+        </aside>
+
+        <div class="d-sections" id="d-sections"></div>
+
+        <div class="d-facts-block">
+          <p class="d-sec-label">DETAILS&nbsp;&amp;&nbsp;CURIOSITIES</p>
+          <ul class="d-facts" id="d-facts"></ul>
+        </div>
+
+        <div class="d-palette-block">
+          <p class="d-sec-label">PALETTE</p>
+          <div class="d-palette" id="d-palette"></div>
+        </div>
+
         <button class="d-next" id="d-next" type="button">
           <span class="d-next-label">OPUS&nbsp;SEQUENS</span>
           <span class="d-next-title" id="d-next-title"></span>
