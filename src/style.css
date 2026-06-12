@@ -528,9 +528,11 @@ body[data-route='work'] .view-toggle {
   position: fixed;
   top: 0;
   left: 0;
-  width: 360px;
-  height: 220px;
-  object-fit: cover;
+  width: 320px;
+  height: 240px;
+  object-fit: contain;
+  background: var(--bg-deep);
+  padding: 10px;
   border: 1px solid rgba(212, 175, 119, 0.55);
   outline: 1px solid rgba(212, 175, 119, 0.2);
   outline-offset: 6px;
@@ -670,8 +672,8 @@ body[data-route='work'] .view-toggle {
 .d-img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  max-height: 72vh;
+  object-fit: contain;
 }
 
 .d-body {

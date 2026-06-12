@@ -94,29 +94,36 @@ function drawCard(
   ctx.lineWidth = 1.5;
   ctx.strokeRect(14, 14, TILE_W - 28, TILE_H - 28);
 
-  // preview image, centered, cover-cropped to a wide 16:9 box
-  const boxW = 584;
-  const boxH = 328;
-  const boxX = (TILE_W - boxW) / 2;
-  const boxY = (TILE_H - boxH) / 2 - 4;
+  // painting at its NATIVE aspect ratio, contain-fitted to a max box —
+  // portraits hang tall, panoramas hang wide, nothing is cropped
+  const maxW = 600;
+  const maxH = 408;
+  let drawX: number;
+  let drawY: number;
+  let drawW: number;
+  let drawH: number;
   if (img) {
-    const scale = Math.max(boxW / img.naturalWidth, boxH / img.naturalHeight);
-    const sw = boxW / scale;
-    const sh = boxH / scale;
-    const sx = (img.naturalWidth - sw) / 2;
-    const sy = (img.naturalHeight - sh) / 2;
-    ctx.drawImage(img, sx, sy, sw, sh, boxX, boxY, boxW, boxH);
+    const scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight);
+    drawW = Math.round(img.naturalWidth * scale);
+    drawH = Math.round(img.naturalHeight * scale);
+    drawX = Math.round((TILE_W - drawW) / 2);
+    drawY = Math.round((TILE_H - drawH) / 2) - 4;
+    ctx.drawImage(img, drawX, drawY, drawW, drawH);
   } else {
+    drawW = 420;
+    drawH = 320;
+    drawX = (TILE_W - drawW) / 2;
+    drawY = (TILE_H - drawH) / 2 - 4;
     ctx.fillStyle = '#181208';
-    ctx.fillRect(boxX, boxY, boxW, boxH);
+    ctx.fillRect(drawX, drawY, drawW, drawH);
   }
-  // gilded picture frame + matting line around the image
+  // gilded picture frame + matting line hugging the painting's true edges
   ctx.strokeStyle = 'rgba(212,175,119,0.7)';
   ctx.lineWidth = 2.5;
-  ctx.strokeRect(boxX - 1, boxY - 1, boxW + 2, boxH + 2);
+  ctx.strokeRect(drawX - 1.5, drawY - 1.5, drawW + 3, drawH + 3);
   ctx.strokeStyle = 'rgba(212,175,119,0.25)';
   ctx.lineWidth = 1;
-  ctx.strokeRect(boxX - 9, boxY - 9, boxW + 18, boxH + 18);
+  ctx.strokeRect(drawX - 9, drawY - 9, drawW + 18, drawH + 18);
 
   // artist — top left, gold small caps
   ctx.textBaseline = 'top';
